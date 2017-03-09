@@ -3,7 +3,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 EXAMPLE_DIR := $(LOCAL_PATH)
-EXAMPLE_LIB := lib/libexample.a
+EXAMPLE_LIB := libexample.a
 
 define all-c-h-files-under
 	$(shell find -L $(1) -name "*.[ch]" -and -not -name ".*") 
