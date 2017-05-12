@@ -6,7 +6,7 @@
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  2013Äê02ÔÂ01ÈÕ 17Ê±32·Ö43Ãë
+ *        Created:  2013å¹´02æœˆ01æ—¥ 17æ—¶32åˆ†43ç§’
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -291,8 +291,10 @@
     jfieldID CONCAT(f, field) = env->GetFieldID(baseclz, STR(field), STR(JNI_GET_SIG_ARRAY(jtype))); \
     JNI_ARRAY_TYPE(jtype) CONCAT(array_, field) = env->GetObjectField(basejobj, CONCAT(f, field)); \
     jsize CONCAT(sz_, field) = NELEM(C_GET_FIELD((*cptr), field, jtype)); \
-    memcpy(C_GET_FIELD((*cptr), field, jtype), env->JNI_GET_ARRAY(jtype)(CONCAT(array_, field), 0), CONCAT(sz_, field)); \
-    env->JNI_RELEASE_ARRAY(jtype)(CONCAT(array_, field), C_GET_FIELD((*cptr), field, jtype), 0); }
+    JNI_TYPE(jtype)* CONCAT(data_, field) = env->JNI_GET_ARRAY(jtype)(CONCAT(array_, field), 0); \
+    memcpy(C_GET_FIELD((*cptr), field, jtype), CONCAT(data_, field), CONCAT(sz_, field)); \
+    env->JNI_RELEASE_ARRAY(jtype)(CONCAT(array_, field), CONCAT(data_, field), 0); \
+    env->DeleleteLocalRef(CONCAT(array_, field)); }
 
 #define GET_OBJ_FD(field, subclzname, cobj, ctype, block...) { \
     jclass subclz = env->FindClass(subclzname); \
